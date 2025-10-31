@@ -2,18 +2,13 @@
 
 import Link from 'next/link';
 import { Newspaper, Image, Github, Link as LinkIcon, Check, Sun, Moon } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Background } from '@/components/atoms/background';
 
 export default function Home() {
   const [showCheck, setShowCheck] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const copyLink = async () => {
     try {
@@ -28,7 +23,7 @@ export default function Home() {
   };
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -105,20 +100,23 @@ export default function Home() {
             onClick={toggleTheme}
             aria-label="Toggle theme"
             className="opacity-60 hover:opacity-100 transition-opacity relative w-[19.2px] h-[19.2px]"
+            suppressHydrationWarning
           >
             <Sun 
               size={19.2} 
               strokeWidth={1.5}
               className={`absolute inset-0 transition-opacity duration-300 ${
-                !mounted || resolvedTheme === 'dark' ? 'opacity-0' : 'opacity-100'
+                resolvedTheme === 'light' ? 'opacity-100' : 'opacity-0'
               }`}
+              suppressHydrationWarning
             />
             <Moon 
               size={19.2} 
               strokeWidth={1.5}
               className={`absolute inset-0 transition-opacity duration-300 ${
-                mounted && resolvedTheme === 'dark' ? 'opacity-100' : 'opacity-0'
+                resolvedTheme === 'light' ? 'opacity-0' : 'opacity-100'
               }`}
+              suppressHydrationWarning
             />
           </button>
         </nav>
