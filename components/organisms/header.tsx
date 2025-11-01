@@ -102,7 +102,7 @@ export function Header() {
             <Sun 
               size={19.2} 
               strokeWidth={1.5}
-              className={`absolute inset-0 transition-opacity duration-300 ${
+              className={`absolute inset-0 ${
                 resolvedTheme === 'light' ? 'opacity-100' : 'opacity-0'
               }`}
               suppressHydrationWarning
@@ -110,7 +110,7 @@ export function Header() {
             <Moon 
               size={19.2} 
               strokeWidth={1.5}
-              className={`absolute inset-0 transition-opacity duration-300 ${
+              className={`absolute inset-0 ${
                 resolvedTheme === 'light' ? 'opacity-0' : 'opacity-100'
               }`}
               suppressHydrationWarning
