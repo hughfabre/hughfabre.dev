@@ -289,3 +289,19 @@
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
+
+.post-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: oklch(from var(--foreground) l c h / 0.65);
+  transition: color 0.2s ease;
+}
+
+.group:hover .post-title {
+  color: var(--foreground);
+}
+
+.post-meta {
+  font-size: 0.875rem;
+  color: oklch(from var(--foreground) l c h / 0.4);
+}
