@@ -1,17 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
   const pathname = usePathname();
-  const router = useRouter();
   const isNotHomePage = pathname !== '/';
 
-  const handleBack = (e: React.MouseEvent) => {
-    e.preventDefault();
-    router.back();
+  const getParentPath = () => {
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length === 0) return '/';
+    segments.pop();
+    return segments.length === 0 ? '/' : `/${segments.join('/')}`;
   };
+
+  const parentPath = getParentPath();
 
   return (
     <footer className="max-w-2xl mx-auto px-4 py-6">
@@ -24,12 +27,12 @@ export function Footer() {
             $ cd ~
           </Link>
           {' '}|{' '}
-          <button 
-            onClick={handleBack}
+          <Link 
+            href={parentPath}
             className="footer-link"
           >
             $ cd ..
-          </button>
+          </Link>
         </p>
       )}
       <p className="text-sm footer-text">
