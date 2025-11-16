@@ -128,7 +128,7 @@
 }
 
 .markdown-content {
-  line-height: 1.65;
+  line-height: 1.2;
   color: oklch(from var(--foreground) l c h / 0.65);
 }
 
