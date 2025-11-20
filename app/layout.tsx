@@ -22,7 +22,7 @@ const archivoNarrow = localFont({
 
 export const metadata: Metadata = {
   title: "Hugh Fabre",
-  description: "Solo web developer building a better web",
+  description: "A solo web engineer.",
   robots: {
     index: true,
     follow: true,
