@@ -1,14 +1,17 @@
 import type { PostMetadata } from "@/lib/content/posts";
 import { formatDate } from "@/lib/time";
 import Link from "next/link";
+import { memo } from "react";
 
 interface PostListItemProps {
   post: PostMetadata;
 }
 
-export function PostListItem({ post }: PostListItemProps) {
+export const PostListItem = memo(function PostListItem({
+  post,
+}: PostListItemProps) {
   return (
-    <Link href={`/posts/${post.slug}`} className="block group">
+    <Link href={`/posts/${post.slug}`} prefetch={true} className="block group">
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="post-title">{post.title}</h2>
         <div className="post-meta flex items-baseline gap-2 shrink-0">
@@ -19,4 +22,4 @@ export function PostListItem({ post }: PostListItemProps) {
       </div>
     </Link>
   );
-}
+});

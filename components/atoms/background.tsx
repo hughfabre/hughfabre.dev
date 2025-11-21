@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import { memo } from "react";
 
 type BackgroundProps = React.ComponentProps<"div"> & {
   size?: number;
 };
 
-const Background = ({
+const Background = memo(function Background({
   size = 24,
   className,
   style,
   ...props
-}: BackgroundProps) => {
+}: BackgroundProps) {
   const backgroundImage = `radial-gradient(var(--background-dot) 1px, transparent 1px)`;
   const backgroundSize = `${size}px ${size}px`;
   const maskClass =
@@ -27,7 +27,7 @@ const Background = ({
       {...props}
     />
   );
-};
+});
 
 Background.displayName = "Background";
 export { Background };

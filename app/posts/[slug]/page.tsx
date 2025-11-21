@@ -3,18 +3,22 @@ import { getAllPosts, getPostBySlug } from "@/lib/content/posts";
 import { renderMarkdown } from "@/lib/markdown";
 import { formatDate } from "@/lib/time";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
+export const revalidate = 3600;
+
+export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
+
   if (!post) notFound();
 
   const content = renderMarkdown(post.content);
@@ -29,7 +33,9 @@ export default async function PostPage({ params }: PostPageProps) {
             read
           </div>
         </header>
-        <MarkdownRenderer content={content} />
+        <Suspense fallback={<div className="animate-pulse h-64" />}>
+          <MarkdownRenderer content={content} />
+        </Suspense>
       </article>
     </main>
   );

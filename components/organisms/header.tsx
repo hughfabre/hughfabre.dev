@@ -12,9 +12,9 @@ import {
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 
-export function Header() {
+export const Header = memo(function Header() {
   const [showCheck, setShowCheck] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const pathname = usePathname();
@@ -22,7 +22,7 @@ export function Header() {
   const isPostsPage = pathname.startsWith("/posts");
   const isCraftsPage = pathname.startsWith("/crafts");
 
-  const copyLink = async () => {
+  const copyLink = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
       setShowCheck(true);
@@ -32,11 +32,11 @@ export function Header() {
     } catch (err) {
       console.error("Failed to copy:", err);
     }
-  };
+  }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
-  };
+  }, [resolvedTheme, setTheme]);
 
   return (
     <div className="mb-8 max-w-2xl mx-auto px-4">
@@ -60,6 +60,7 @@ export function Header() {
           <Link
             href="/posts"
             aria-label="Posts"
+            prefetch
             className={`transition-opacity ${
               isPostsPage ? "opacity-100" : "opacity-60 hover:opacity-100"
             }`}
@@ -70,6 +71,7 @@ export function Header() {
           <Link
             href="/crafts"
             aria-label="Crafts"
+            prefetch
             className={`transition-opacity ${
               isCraftsPage ? "opacity-100" : "opacity-60 hover:opacity-100"
             }`}
@@ -137,4 +139,4 @@ export function Header() {
       </header>
     </div>
   );
-}
+});

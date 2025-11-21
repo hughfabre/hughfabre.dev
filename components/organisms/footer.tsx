@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { memo, useMemo } from "react";
 
-export function Footer() {
+export const Footer = memo(function Footer() {
   const pathname = usePathname();
   const isNotHomePage = pathname !== "/";
 
-  const getParentPath = () => {
+  const parentPath = useMemo(() => {
     const segments = pathname.split("/").filter(Boolean);
     if (segments.length === 0) return "/";
     segments.pop();
     return segments.length === 0 ? "/" : `/${segments.join("/")}`;
-  };
-
-  const parentPath = getParentPath();
+  }, [pathname]);
 
   return (
     <footer className="max-w-2xl mx-auto px-4 py-6">
@@ -42,4 +41,4 @@ export function Footer() {
       </p>
     </footer>
   );
-}
+});

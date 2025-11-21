@@ -1,21 +1,20 @@
 "use client";
 
 import { TOOLTIP_CLASS, TOOLTIP_ELEMENT_CLASS } from "@/lib/markdown";
-import { useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 
 interface MarkdownRendererProps {
   content: string;
 }
 
-function getTokyoTime(): string {
-  const now = new Date();
+const getTokyoTime = (): string => {
   return new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Tokyo",
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-  }).format(now);
-}
+  }).format(new Date());
+};
 
 function processTooltipLinks(container: HTMLElement) {
   const normalLinks = container.querySelectorAll("a:not(.magic-link)");
@@ -37,7 +36,9 @@ function processTooltipLinks(container: HTMLElement) {
   });
 }
 
-export function MarkdownRenderer({ content }: MarkdownRendererProps) {
+export const MarkdownRenderer = memo(function MarkdownRenderer({
+  content,
+}: MarkdownRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const processContent = useCallback(() => {
@@ -55,9 +56,13 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
       const timeElements =
         containerRef.current.querySelectorAll("[data-tokyo-time]");
+      if (timeElements.length === 0) return;
+
       const currentTime = getTokyoTime();
       timeElements.forEach((element) => {
-        element.textContent = currentTime;
+        if (element.textContent !== currentTime) {
+          element.textContent = currentTime;
+        }
       });
     };
 
@@ -73,4 +78,4 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );
-}
+});

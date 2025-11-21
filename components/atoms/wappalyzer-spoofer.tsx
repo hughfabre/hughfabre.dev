@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const setGlobal = (key: string, value: unknown) => {
   if (typeof window === "undefined") return;
@@ -123,7 +123,7 @@ const injectGlobals = () => {
   addMeta("csrf-token", "xyz");
 };
 
-export const WappalyzerSpoofer = () => {
+export const WappalyzerSpoofer = memo(function WappalyzerSpoofer() {
   useEffect(() => {
     injectGlobals();
   }, []);
@@ -158,4 +158,4 @@ export const WappalyzerSpoofer = () => {
       <script type="text/javascript">{"/* CF_RunTime */"}</script>
     </div>
   );
-};
+});
